@@ -73,8 +73,6 @@ class MainTableViewCell: BaseTableViewCell {
         highAndLowDegree.text = "최고 : 7.0°  |  최저 : -4.2°"
         highAndLowDegree.font = .systemFont(ofSize: 20, weight: .medium)
         highAndLowDegree.textColor = .white
-        
-        
     }
     
 }

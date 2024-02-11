@@ -15,11 +15,30 @@ import UIKit
 class ViewController: BaseViewController {
     
     let mainTableView = UITableView()
+    
+    var weatherList: WeatherModel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        loadWeatherData()
+        
     }
+    
+    func loadWeatherData() {
+        let api = WeatherAPI.current(lat: "33.4890", lon: "126.4983")
+        APIManager.shared.fetchWeather(type: WeatherModel.self, api: api, url: api.endPoint) { [weak self] weather, error in
+            DispatchQueue.main.async {
+                if let weatherList = weather {
+                    self?.weatherList = weatherList
+                    self?.mainTableView.reloadData()
+                } else {
+                    print(error)
+                }
+            }
+        }
+    }
+
     
     override func configureHeirarchy() {
         view.addSubview(mainTableView)
@@ -36,6 +55,8 @@ class ViewController: BaseViewController {
         mainTableView.dataSource = self
         mainTableView.register(MainTableViewCell.self, forCellReuseIdentifier: "MainTableViewCell")
         mainTableView.register(ThreeHoursWeatherTableViewCell.self, forCellReuseIdentifier: "ThreeHoursWeatherTableViewCell")
+        
+//        mainTableView.backgroundColor = .black
     }
 
 
@@ -65,13 +86,41 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         if indexPath.section == 0 {
             let cell = mainTableView.dequeueReusableCell(withIdentifier: "MainTableViewCell", for: indexPath) as! MainTableViewCell
             
+            cell.location.text = weatherList?.name
+            
+            let temperature = (weatherList?.main.temp ?? 273.15) - 273.15
+            cell.temperature.text = String(format: "%.1f°", temperature)
+            
+            let tempMax = (weatherList?.main.tempMax ?? 273.15) - 273.15
+            let tempMin = (weatherList?.main.tempMin ?? 273.15) - 273.15
+            cell.highAndLowDegree.text = "최고 : \(String(format: "%.1f°", tempMax))  |  최저 : \(String(format: "%.1f°", tempMin))"
+            
+            cell.weather.text = weatherList?.weather.first?.main
+            
+            return cell
+            
+        } else if indexPath.section == 1 {
+            
+            let cell = mainTableView.dequeueReusableCell(withIdentifier: "ThreeHoursWeatherTableViewCell", for: indexPath) as! ThreeHoursWeatherTableViewCell
+            
+            
             return cell
         } else {
-            let cell = mainTableView.dequeueReusableCell(withIdentifier: "ThreeHoursWeatherTableViewCell", for: indexPath) as! ThreeHoursWeatherTableViewCell
+            let cell = mainTableView.dequeueReusableCell(withIdentifier: "MainTableViewCell", for: indexPath) as! MainTableViewCell
+            
+            cell.location.text = weatherList?.name
+            
+            let temperature = (weatherList?.main.temp ?? 273.15) - 273.15
+            cell.temperature.text = String(format: "%.1f°C", temperature)
+            
+            let tempMax = (weatherList?.main.tempMax ?? 273.15) - 273.15
+            let tempMin = (weatherList?.main.tempMin ?? 273.15) - 273.15
+            cell.highAndLowDegree.text = "최고 : \(String(format: "%.1f°C", tempMax))  |  최저 : \(String(format: "%.1f°C", tempMin))"
+            
+            cell.weather.text = weatherList?.weather.first?.main
             
             return cell
         }
-        
     }
     
 }

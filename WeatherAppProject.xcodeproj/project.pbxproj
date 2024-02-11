@@ -22,6 +22,10 @@
 		C1BC98D22B78D36B0083E181 /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = C1BC98D12B78D36B0083E181 /* SnapKit-Dynamic */; };
 		C1BC98D42B78D9230083E181 /* ThreeHoursWeatherTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BC98D32B78D9230083E181 /* ThreeHoursWeatherTableViewCell.swift */; };
 		C1BC98D82B78D9BF0083E181 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BC98D72B78D9BF0083E181 /* APIKey.swift */; };
+		C1BC98DB2B78DA2C0083E181 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BC98DA2B78DA2C0083E181 /* APIManager.swift */; };
+		C1BC98DD2B78DB1E0083E181 /* WeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BC98DC2B78DB1E0083E181 /* WeatherModel.swift */; };
+		C1BC98DF2B78DB8C0083E181 /* WeatherAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BC98DE2B78DB8C0083E181 /* WeatherAPI.swift */; };
+		C1BC98E22B78F37D0083E181 /* ThreeHoursWeatherCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BC98E12B78F37D0083E181 /* ThreeHoursWeatherCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +44,10 @@
 		C1BC98CC2B78D2140083E181 /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
 		C1BC98D32B78D9230083E181 /* ThreeHoursWeatherTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeHoursWeatherTableViewCell.swift; sourceTree = "<group>"; };
 		C1BC98D72B78D9BF0083E181 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
+		C1BC98DA2B78DA2C0083E181 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
+		C1BC98DC2B78DB1E0083E181 /* WeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModel.swift; sourceTree = "<group>"; };
+		C1BC98DE2B78DB8C0083E181 /* WeatherAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAPI.swift; sourceTree = "<group>"; };
+		C1BC98E12B78F37D0083E181 /* ThreeHoursWeatherCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeHoursWeatherCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +82,7 @@
 		C1BC98AD2B7857570083E181 /* WeatherAppProject */ = {
 			isa = PBXGroup;
 			children = (
+				C1BC98D92B78DA240083E181 /* Manager */,
 				C1BC98D62B78D9AC0083E181 /* View */,
 				C1BC98D52B78D9A50083E181 /* Model */,
 				C1BC98AE2B7857570083E181 /* AppDelegate.swift */,
@@ -92,6 +101,7 @@
 			children = (
 				C1BC98C52B78D1860083E181 /* MainTableViewCell.swift */,
 				C1BC98D32B78D9230083E181 /* ThreeHoursWeatherTableViewCell.swift */,
+				C1BC98E12B78F37D0083E181 /* ThreeHoursWeatherCollectionViewCell.swift */,
 			);
 			path = MainTableViewCells;
 			sourceTree = "<group>";
@@ -110,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				C1BC98D72B78D9BF0083E181 /* APIKey.swift */,
+				C1BC98DC2B78DB1E0083E181 /* WeatherModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -122,6 +133,15 @@
 				C1BC98B22B7857570083E181 /* ViewController.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		C1BC98D92B78DA240083E181 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				C1BC98DA2B78DA2C0083E181 /* APIManager.swift */,
+				C1BC98DE2B78DB8C0083E181 /* WeatherAPI.swift */,
+			);
+			path = Manager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -205,11 +225,15 @@
 			files = (
 				C1BC98B32B7857570083E181 /* ViewController.swift in Sources */,
 				C1BC98CD2B78D2140083E181 /* BaseCollectionViewCell.swift in Sources */,
+				C1BC98DB2B78DA2C0083E181 /* APIManager.swift in Sources */,
+				C1BC98DD2B78DB1E0083E181 /* WeatherModel.swift in Sources */,
 				C1BC98AF2B7857570083E181 /* AppDelegate.swift in Sources */,
 				C1BC98D42B78D9230083E181 /* ThreeHoursWeatherTableViewCell.swift in Sources */,
 				C1BC98C62B78D1860083E181 /* MainTableViewCell.swift in Sources */,
 				C1BC98C92B78D19A0083E181 /* BaseTableViewCell.swift in Sources */,
+				C1BC98E22B78F37D0083E181 /* ThreeHoursWeatherCollectionViewCell.swift in Sources */,
 				C1BC98B12B7857570083E181 /* SceneDelegate.swift in Sources */,
+				C1BC98DF2B78DB8C0083E181 /* WeatherAPI.swift in Sources */,
 				C1BC98D82B78D9BF0083E181 /* APIKey.swift in Sources */,
 				C1BC98CB2B78D1BD0083E181 /* BaseViewController.swift in Sources */,
 			);
