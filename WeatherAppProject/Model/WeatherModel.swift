@@ -22,14 +22,6 @@ struct WeatherModel: Decodable {
     let cod: Int
 }
 
-struct Clouds: Decodable {
-    let all: Int
-}
-
-struct Coord: Decodable {
-    let lon, lat: Double
-}
-
 struct Main: Decodable {
     let temp, feelsLike, tempMin, tempMax: Double
     let pressure, humidity: Int
@@ -43,19 +35,7 @@ struct Main: Decodable {
     }
 }
 
-struct Sys: Decodable {
-    let type: Int?
-    let id: Int?
-    let country: String
-    let sunrise, sunset: Int
-}
-
 struct Weather: Decodable {
     let id: Int
     let main, description, icon: String
-}
-
-struct Wind: Decodable {
-    let speed: Double
-    let deg: Int
 }

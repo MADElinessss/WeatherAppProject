@@ -32,7 +32,7 @@ class ThreeHoursWeatherTableViewCell: BaseTableViewCell {
     }
     
     override func configureView() {
-        
+        contentView.backgroundColor = .black
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(ThreeHoursWeatherCollectionViewCell.self, forCellWithReuseIdentifier: "ThreeHoursWeatherCollectionViewCell")
@@ -41,7 +41,7 @@ class ThreeHoursWeatherTableViewCell: BaseTableViewCell {
     static func configureCollectionLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
         
-        layout.itemSize = CGSize(width: 120, height: 160)
+        layout.itemSize = CGSize(width: 80, height: 100)
         layout.minimumLineSpacing = 8
         layout.minimumInteritemSpacing = 0
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -61,4 +61,8 @@ extension ThreeHoursWeatherTableViewCell: UICollectionViewDelegate, UICollection
         
         return cell
     }
+}
+
+#Preview {
+    ThreeHoursWeatherTableViewCell()
 }

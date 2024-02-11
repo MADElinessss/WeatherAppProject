@@ -35,12 +35,12 @@ class ThreeHoursWeatherCollectionViewCell: BaseCollectionViewCell {
         }
         
         image.snp.makeConstraints { make in
-            make.top.equalTo(time.snp.bottom).inset(8)
+            make.top.equalTo(time.snp.bottom).inset(-8)
             make.centerX.equalTo(contentView)
         }
         
         temperature.snp.makeConstraints { make in
-            make.top.equalTo(image.snp.bottom).inset(8)
+            make.top.equalTo(image.snp.bottom).inset(-8)
             make.centerX.equalTo(contentView)
         }
     }
@@ -58,4 +58,8 @@ class ThreeHoursWeatherCollectionViewCell: BaseCollectionViewCell {
         temperature.font = .systemFont(ofSize: 14, weight: .light)
         temperature.textColor = .white
     }
+}
+
+#Preview {
+    ThreeHoursWeatherCollectionViewCell()
 }
