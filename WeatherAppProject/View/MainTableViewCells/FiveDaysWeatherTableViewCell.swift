@@ -57,11 +57,11 @@ class FiveDaysWeatherTableViewCell: BaseTableViewCell {
         weatherIcon.contentMode = .scaleAspectFill
         
         minTemperature.text = "최저 -2°"
-        minTemperature.font = .systemFont(ofSize: 10, weight: .light)
+        minTemperature.font = .systemFont(ofSize: 18, weight: .light)
         minTemperature.textColor = .white
         
         maxTemperature.text = "최고 9°"
-        maxTemperature.font = .systemFont(ofSize: 10, weight: .light)
+        maxTemperature.font = .systemFont(ofSize: 18, weight: .light)
         maxTemperature.textColor = .white
     }
 

@@ -105,17 +105,33 @@ class ViewController: BaseViewController {
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 1 {
+            return "🕒 3시간 간격의 일기 예보"
+        } else if section == 2 {
+            return "🗓️ 5일 간의 일기 예보"
+        } else if section == 3 {
+            return "🌡️ 위치"
+        } else {
+            return ""
+        }
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 5
     }
+    // MARK: 섹션 별 높이
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-            return UIScreen.main.bounds.height * 0.4
+            return UIScreen.main.bounds.height * 0.35
         } else if indexPath.section == 1 {
-            return UIScreen.main.bounds.height * 0.2
+            // 3시간 간격의 날씨
+            return UIScreen.main.bounds.height * 0.18
         } else if indexPath.section == 2 {
+            // 5일 동안의 날씨
             return 44
         } else {
+            // 지도
             return UIScreen.main.bounds.height * 0.4
         }
     }
@@ -148,14 +164,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "ThreeHoursWeatherTableViewCell", for: indexPath) as! ThreeHoursWeatherTableViewCell
             
-            // TODO: 3시간 간격의 "00시", "온도" 형태 데이터 받아서 셀에 전달
-            // 3시간 간격의 날씨를 표현하는 셀
-            
-            let hourString = dateStringForIndexPath(indexPath, isHourly: true)
-                let forecastData = forecastList?.list[indexPath.row]
-                let temperature = forecastData?.main.temp ?? 0.0
-                let temperatureCelsius = temperature - 273.15
-            
             if let forecastData = forecastList?.list {
                 cell.configure(with: forecastData)
             }
@@ -171,7 +179,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             if let tempMax = forecastList?.list[indexPath.row * 8].main.tempMax, let tempMin = forecastList?.list[indexPath.row * 8].main.tempMin {
                 let tempMaxCelsius = tempMax - 273.15
                 let tempMinCelsius = tempMin - 273.15
-                // 최고 온도와 최저 온도를 소수점 없이 설정
                 cell.maxTemperature.text = "최고 \(String(format: "%.0f°", tempMaxCelsius))"
                 cell.minTemperature.text = "최저 \(String(format: "%.0f°", tempMinCelsius))"
             }

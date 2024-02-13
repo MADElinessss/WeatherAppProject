@@ -33,6 +33,7 @@ class ThreeHoursWeatherCollectionViewCell: BaseCollectionViewCell {
 
     
     override func configureHierarchy() {
+        contentView.backgroundColor = .black
         contentView.addSubview(time)
         contentView.addSubview(image)
         contentView.addSubview(temperature)
@@ -41,16 +42,16 @@ class ThreeHoursWeatherCollectionViewCell: BaseCollectionViewCell {
     override func configureLayout() {
         time.snp.makeConstraints { make in
             make.centerX.equalTo(contentView)
-            make.top.equalTo(contentView.safeAreaLayoutGuide)
+            make.top.equalTo(contentView.safeAreaLayoutGuide).inset(8)
         }
         
         image.snp.makeConstraints { make in
-            make.top.equalTo(time.snp.bottom).inset(-8)
+            make.centerY.equalTo(contentView)
             make.centerX.equalTo(contentView)
         }
         
         temperature.snp.makeConstraints { make in
-            make.top.equalTo(image.snp.bottom).inset(-8)
+            make.bottom.equalTo(contentView.safeAreaLayoutGuide).inset(8)
             make.centerX.equalTo(contentView)
         }
     }
@@ -58,14 +59,14 @@ class ThreeHoursWeatherCollectionViewCell: BaseCollectionViewCell {
     override func configureView() {
         
         time.text = "12시"
-        time.font = .systemFont(ofSize: 14, weight: .light)
+        time.font = .systemFont(ofSize: 18, weight: .light)
         time.textColor = .white
         
         image.image = UIImage(systemName: "cloud.fill")
         image.tintColor = .white
         
         temperature.text = "7°"
-        temperature.font = .systemFont(ofSize: 14, weight: .light)
+        temperature.font = .systemFont(ofSize: 20, weight: .light)
         temperature.textColor = .white
     }
 }

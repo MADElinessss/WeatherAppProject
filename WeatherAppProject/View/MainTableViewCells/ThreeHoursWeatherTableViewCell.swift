@@ -34,7 +34,7 @@ class ThreeHoursWeatherTableViewCell: BaseTableViewCell {
     
     override func configureLayout() {
         collectionView.snp.makeConstraints { make in
-            make.edges.equalTo(contentView.safeAreaLayoutGuide)
+            make.edges.equalTo(contentView)
         }
     }
     
@@ -48,8 +48,8 @@ class ThreeHoursWeatherTableViewCell: BaseTableViewCell {
     static func configureCollectionLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
         
-        layout.itemSize = CGSize(width: 80, height: 100)
-        layout.minimumLineSpacing = 8
+        layout.itemSize = CGSize(width: UIScreen.main.bounds.width * 0.2, height: UIScreen.main.bounds.height * 0.18)
+        layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.scrollDirection = .horizontal
