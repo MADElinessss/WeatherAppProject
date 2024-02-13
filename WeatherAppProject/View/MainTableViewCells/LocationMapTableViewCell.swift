@@ -10,7 +10,7 @@ import MapKit
 import SnapKit
 import UIKit
 
-class LocationMapTableViewCell: BaseTableViewCell {
+class LocationMapTableViewCell: BaseTableViewCell, MKMapViewDelegate {
     
     let mapView = MKMapView()
     let manager = CLLocationManager()
@@ -27,19 +27,47 @@ class LocationMapTableViewCell: BaseTableViewCell {
     override func configureView() {
         contentView.addSubview(mapView)
         
+        mapView.delegate = self
+        mapView.mapType = .standard
+        
         mapView.snp.makeConstraints { make in
             make.edges.equalTo(contentView.safeAreaLayoutGuide)
         }
     }
     
-    func configureWithLocation(location: CLLocationCoordinate2D) {
-        let center = location
-        let region = MKCoordinateRegion(center: center, latitudinalMeters: 500, longitudinalMeters: 500)
+    func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
+        print("지도 로드 완료")
+    }
+    
+    // 지도 로딩 실패 시 호출되는 메서드
+    func mapView(_ mapView: MKMapView, didFailToLoadMapWithError error: Error) {
+        print("지도 로드 실패: \(error.localizedDescription)")
+    }
+    
+    func configureWithLocation(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
+        print("Configuring map with location: latitude \(latitude), longitude \(longitude)")
+                
+        let location = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        let region = MKCoordinateRegion(center: location, latitudinalMeters: 400, longitudinalMeters: 400)
         mapView.setRegion(region, animated: true)
+        print("Map region set to: \(region)")
     }
 
+//
+//    func configureWithLocation(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
+//        let location = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+//        let region = MKCoordinateRegion(center: location, latitudinalMeters: 5000, longitudinalMeters: 5000)
+//        mapView.setRegion(region, animated: true)
+//        
+//        mapView.removeAnnotations(mapView.annotations)
+//        
+//        let annotation = MKPointAnnotation()
+//        annotation.coordinate = location
+//        mapView.addAnnotation(annotation)
+//    }
+    
     func configureBackgroundColor(_ color: UIColor) {
         contentView.backgroundColor = color
     }
-
+    
 }

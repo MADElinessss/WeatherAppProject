@@ -25,6 +25,17 @@ class ViewController: BaseViewController {
     var locationManager: CLLocationManager!
     var currentLocation: CLLocationCoordinate2D?
     
+    var latitude: CLLocationDegrees = 0 {
+        didSet {
+            mainTableView.reloadData()
+        }
+    }
+    var longitude: CLLocationDegrees = 0 {
+        didSet {
+            mainTableView.reloadData()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -42,24 +53,35 @@ class ViewController: BaseViewController {
         loadWeatherData()
     }
     
+    func updateLocationAndRefreshMap(latitude: Double, longitude: Double) {
+        self.latitude = latitude
+        self.longitude = longitude
+        // 지도 셀만 새로고침
+        DispatchQueue.main.async {
+            let indexPath = IndexPath(row: 0, section: 3) // 지도 셀의 위치
+            self.mainTableView.reloadRows(at: [indexPath], with: .none)
+        }
+    }
+
+    
     // MARK: 날씨 API 호출
     func loadWeatherData(lat: String? = nil, lon: String? = nil) {
         
-        let latitude: String
-        let longitude: String
+        var latitude: CLLocationDegrees
+        var longitude: CLLocationDegrees
         
-        if let lat = lat, let lon = lon {
-            latitude = lat
-            longitude = lon
+        if let lat = lat, let lon = lon, let latDouble = Double(lat), let lonDouble = Double(lon) {
+            latitude = latDouble
+            longitude = lonDouble
         } else if let currentLocation = self.currentLocation {
-            latitude = "\(currentLocation.latitude)"
-            longitude = "\(currentLocation.longitude)"
+            latitude = currentLocation.latitude
+            longitude = currentLocation.longitude
         } else {
             print("현재 위치를 사용할 수 없습니다.")
             return
         }
         
-        let currentAPI = WeatherAPI.current(lat: latitude, lon: longitude)
+        let currentAPI = WeatherAPI.current(lat: String(latitude), lon: String(longitude))
         
         APIManager.shared.fetchWeather(type: WeatherModel.self, api: currentAPI, url: currentAPI.endPoint) { [weak self] weather, error in
             DispatchQueue.main.async {
@@ -76,13 +98,15 @@ class ViewController: BaseViewController {
             }
         }
         
-        let forecastAPI = WeatherAPI.forecast(lat: latitude, lon: longitude)
+        let forecastAPI = WeatherAPI.forecast(lat: String(latitude), lon: String(longitude))
         APIManager.shared.fetchWeather(type: ForecastModel.self, api: forecastAPI, url: forecastAPI.endPoint) { forecast, error in
             DispatchQueue.main.async {
                 if let forecastList = forecast {
                     self.forecastList = forecastList
                     self.updateDailyWeatherList()
                     self.mainTableView.reloadData()
+                    let indexPath = IndexPath(row: 0, section: 3)
+                    self.mainTableView.reloadRows(at: [indexPath], with: .none)
                 } else {
                     print(error)
                 }
@@ -147,8 +171,18 @@ class ViewController: BaseViewController {
     }
     
     @objc func mapButtonTapped() {
-        let vc = CitySearchViewController()
-        let nav = UINavigationController(rootViewController: vc)
+        let citySearchVC = CitySearchViewController()
+        citySearchVC.onCitySelected = { [weak self] lat, lon in
+            
+            guard let self = self else { return }
+           
+            self.loadWeatherData(lat: lat, lon: lon)
+            
+            if let latDouble = Double(lat), let lonDouble = Double(lon) {
+                self.updateLocationAndRefreshMap(latitude: latDouble, longitude: lonDouble)
+            }
+        }
+        let nav = UINavigationController(rootViewController: citySearchVC)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true)
     }
@@ -273,11 +307,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             
             cell.configureBackgroundColor(backgroundColor)
             
-            // TODO: 현위치 지도, 현재 위치를 받아와야 함
-            if let currentLocation = self.currentLocation {
-                // 올바른 인자 레이블과 함께 메소드 호출
-                cell.configureWithLocation(location: currentLocation)
-            }
+            // 지도 위치 설정
+            cell.configureWithLocation(latitude: self.latitude, longitude: self.longitude)
+            
+            print("Setting up map cell with latitude: \(self.latitude), longitude: \(self.longitude)")
+
             
             cell.selectionStyle = .none
             
@@ -287,22 +321,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             
             let cell = mainTableView.dequeueReusableCell(withIdentifier: "FiveDaysWeatherTableViewCell", for: indexPath) as! FiveDaysWeatherTableViewCell
             
-            let weatherConditionCode = weatherList?.weather.first?.id ?? 0
-            let backgroundColor = BackgroundColorManager.shared.backgroundColor(forWeatherConditionCode: weatherConditionCode, atTime: Date())
             
-            cell.configureBackgroundColor(backgroundColor)
-            
-            let dayString = dateStringForIndexPath(indexPath, isHourly: false)
-            cell.date.text = dayString
-            if let tempMax = forecastList?.list[indexPath.row * 8].main.tempMax {
-                cell.maxTemperature.text = "최고 \(tempMax - 273.15)°"
-            }
-            
-            if let tempMin = forecastList?.list[indexPath.row * 8].main.tempMin {
-                cell.minTemperature.text = "최저 \(tempMin - 273.15)°"
-            }
-            
-            // TODO: icon
             
             cell.selectionStyle = .none
             
@@ -353,22 +372,19 @@ extension ViewController: CLLocationManagerDelegate {
     }
     
     func checkDeviceLocationAuthorization() {
-        let status = CLLocationManager.authorizationStatus() // iOS 14 미만 대응
+        let status = CLLocationManager.authorizationStatus()
         if #available(iOS 14.0, *) {
-            let status = locationManager.authorizationStatus // iOS 14 이상 대응
+            let status = locationManager.authorizationStatus
         }
         
         switch status {
         case .notDetermined:
-            // 권한이 결정되지 않음: 권한 요청
             locationManager.requestWhenInUseAuthorization()
         case .restricted, .denied:
-            // 권한이 제한됨 또는 거부됨: 사용자에게 설정에서 권한을 변경하도록 안내
             DispatchQueue.main.async {
                 self.showLocationAccessDeniedAlert()
             }
         case .authorizedAlways, .authorizedWhenInUse:
-            // 권한이 허용됨: 위치 업데이트 시작
             locationManager.startUpdatingLocation()
         @unknown default:
             break
@@ -384,24 +400,6 @@ extension ViewController: CLLocationManagerDelegate {
         }))
         alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
-    }
-    
-    func checkCurrentLocationAuthorization(_ status: CLAuthorizationStatus) {
-        
-        switch status {
-        case .notDetermined:
-            print("notDetermined")
-        case .restricted:
-            print("restricted")
-        case .denied:
-            print("denied")
-        case .authorizedAlways:
-            print("authorizedAlways")
-        case .authorizedWhenInUse:
-            print("authorizedWhenInUse")
-        case .authorized:
-            print("authorized")
-        }
     }
 }
 

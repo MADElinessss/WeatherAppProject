@@ -10,6 +10,8 @@ import UIKit
 
 class CitySearchViewController: BaseViewController {
     
+    var onCitySelected: ((_ lat: String, _ lon: String) -> Void)?
+    
     var citylist: [CityList] = []
     
     let titleLabel = UILabel()
@@ -82,7 +84,7 @@ class CitySearchViewController: BaseViewController {
     @objc func leftBarButtonItemTapped() {
         dismiss(animated: true)
     }
-
+    
     @objc func rightBarButtonItemTapped() {
         // 액션 구현
     }
@@ -94,7 +96,7 @@ extension CitySearchViewController {
            let data = try? Data(contentsOf: url) {
             do {
                 citylist = try JSONDecoder().decode([CityList].self, from: data)
-                print(citylist)
+                //                print(citylist)
                 tableView.reloadData()
             } catch {
                 print("Error decoding JSON: \(error)")
@@ -117,27 +119,18 @@ extension CitySearchViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCity = citylist[indexPath.row]
-        let selectedLat = selectedCity.coord.lat
-        let selectedLon = selectedCity.coord.lon
+        let selectedLat = String(selectedCity.coord.lat)
+        let selectedLon = String(selectedCity.coord.lon)
+        
+        onCitySelected?(selectedLat, selectedLon)
 
-        let vc = ViewController()
-        vc.modalPresentationStyle = .fullScreen
-        vc.onCitySelected = { [weak self] lat, lon in
-            self?.dismiss(animated: true, completion: {
-                vc.loadWeatherData(lat: lat, lon: lon)
-            })
-        }
-        
-        vc.onCitySelected?(String(selectedLat), String(selectedLon))
-        
-        let nav = UINavigationController(rootViewController: vc)
-        present(nav, animated: true)
+        self.dismiss(animated: true, completion: nil)
     }
 }
-
-
 
 #Preview {
     CitySearchViewController()
