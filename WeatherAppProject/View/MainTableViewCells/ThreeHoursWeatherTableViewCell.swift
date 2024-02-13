@@ -11,6 +11,11 @@ import UIKit
 class ThreeHoursWeatherTableViewCell: BaseTableViewCell {
 
     var forecastData: [List]?
+    var iconCode : String = "" {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
     
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureCollectionLayout())
 
@@ -91,8 +96,27 @@ extension ThreeHoursWeatherTableViewCell: UICollectionViewDelegate, UICollection
             }
         }
         
-        
+        if let data = forecastData?[indexPath.row] {
+            // 데이터를 사용하여 셀 구성
+            cell.configure(with: data)
+        }
+
         return cell
+    }
+}
+
+extension ThreeHoursWeatherTableViewCell {
+    
+    func loadImage(from url: URL?, for imageView: UIImageView) {
+        guard let url = url else { return }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let data = data, let image = UIImage(data: data) {
+                DispatchQueue.main.async {
+                    imageView.image = image
+                }
+            }
+        }.resume()
     }
 }
 

@@ -24,14 +24,30 @@ class ThreeHoursWeatherCollectionViewCell: BaseCollectionViewCell {
     
     func configure(with data: List) {
         
+        if let iconCode = data.weather.first?.icon {
+            guard let iconUrl = URL(string: "https://openweathermap.org/img/wn/\(iconCode).png") else { return }
+            ImageManager.shared.loadImage(from: iconUrl) { [weak self] image, error in
+                guard let self = self else { return }
+                if let image = image {
+                    DispatchQueue.main.async {
+                        self.image.image = image
+                    }
+                } else if let error = error {
+                    print("Error loading image: \(error)")
+                }
+            }
+        }
+        
+        // 날짜 및 시간 설정
         let dateString = data.dtTxt
         self.time.text = extractHourString(from: dateString)
         
+        // 온도 설정
         let temperatureCelsius = data.main.temp - 273.15
         self.temperature.text = String(format: "%.0f°", temperatureCelsius)
+        
     }
 
-    
     override func configureHierarchy() {
         contentView.backgroundColor = .black
         contentView.addSubview(time)

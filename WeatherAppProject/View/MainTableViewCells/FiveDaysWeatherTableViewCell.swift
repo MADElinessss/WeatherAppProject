@@ -35,7 +35,7 @@ class FiveDaysWeatherTableViewCell: BaseTableViewCell {
             make.centerY.equalTo(contentView)
         }
         weatherIcon.snp.makeConstraints { make in
-            make.leading.equalTo(date.snp.trailing).offset(48)
+            make.leading.equalTo(contentView).offset(110)
             make.centerY.equalTo(contentView)
             make.height.equalTo(24)
         }
@@ -44,21 +44,21 @@ class FiveDaysWeatherTableViewCell: BaseTableViewCell {
             make.centerY.equalTo(contentView)
         }
         maxTemperature.snp.makeConstraints { make in
-            make.trailing.equalTo(contentView).offset(-24)
+            make.trailing.equalTo(contentView).offset(-48)
             make.centerY.equalTo(contentView)
         }
         
         date.text = "오늘"
         date.font = .systemFont(ofSize: 24, weight: .light)
         date.textColor = .white
-        
+
         weatherIcon.image = UIImage(systemName: "sun.max.fill")
         weatherIcon.tintColor = .yellow
         weatherIcon.contentMode = .scaleAspectFill
         
         minTemperature.text = "최저 -2°"
         minTemperature.font = .systemFont(ofSize: 18, weight: .light)
-        minTemperature.textColor = .white
+        minTemperature.textColor = .lightGray
         
         maxTemperature.text = "최고 9°"
         maxTemperature.font = .systemFont(ofSize: 18, weight: .light)

@@ -171,6 +171,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             
             if let forecastData = forecastList?.list {
                 cell.configure(with: forecastData)
+                let iconCode = forecastData.first?.weather.first?.icon ?? ""
+                cell.iconCode = iconCode
             }
             
             cell.selectionStyle = .none
@@ -188,6 +190,12 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             let tempMinCelsius = dailyWeather.minTemp - 273.15
             cell.maxTemperature.text = "최고 \(String(format: "%.0f°", tempMaxCelsius))"
             cell.minTemperature.text = "최저 \(String(format: "%.0f°", tempMinCelsius))"
+            
+            if let weather = forecastList?.list[indexPath.row].weather.first {
+                let iconCode = weather.icon
+                let iconUrl = URL(string: "https://openweathermap.org/img/wn/\(iconCode).png")
+                loadImage(from: iconUrl, for: cell.weatherIcon)
+            }
             
             cell.selectionStyle = .none
             
@@ -222,6 +230,21 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             
             return cell
         }
+    }
+}
+
+extension ViewController {
+    func loadImage(from url: URL?, for imageView: UIImageView) {
+        guard let url = url else { return }
+        
+        // 이미지 데이터 로드
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let data = data, let image = UIImage(data: data) {
+                DispatchQueue.main.async {
+                    imageView.image = image
+                }
+            }
+        }.resume()
     }
 }
 
