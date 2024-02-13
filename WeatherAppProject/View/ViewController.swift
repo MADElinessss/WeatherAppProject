@@ -25,16 +25,8 @@ class ViewController: BaseViewController {
     var locationManager: CLLocationManager!
     var currentLocation: CLLocationCoordinate2D?
     
-    var latitude: CLLocationDegrees = 0 {
-        didSet {
-            mainTableView.reloadData()
-        }
-    }
-    var longitude: CLLocationDegrees = 0 {
-        didSet {
-            mainTableView.reloadData()
-        }
-    }
+    var latitude: CLLocationDegrees = 37.53915059193122
+    var longitude: CLLocationDegrees = 127.12338300062568
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -307,7 +299,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             
             cell.configureBackgroundColor(backgroundColor)
             
-            // 지도 위치 설정
             cell.configureWithLocation(latitude: self.latitude, longitude: self.longitude)
             
             print("Setting up map cell with latitude: \(self.latitude), longitude: \(self.longitude)")
@@ -320,9 +311,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             
             let cell = mainTableView.dequeueReusableCell(withIdentifier: "FiveDaysWeatherTableViewCell", for: indexPath) as! FiveDaysWeatherTableViewCell
-            
-            
-            
+
             cell.selectionStyle = .none
             
             return cell

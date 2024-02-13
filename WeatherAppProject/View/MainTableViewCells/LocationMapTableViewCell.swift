@@ -53,19 +53,6 @@ class LocationMapTableViewCell: BaseTableViewCell, MKMapViewDelegate {
         print("Map region set to: \(region)")
     }
 
-//
-//    func configureWithLocation(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
-//        let location = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-//        let region = MKCoordinateRegion(center: location, latitudinalMeters: 5000, longitudinalMeters: 5000)
-//        mapView.setRegion(region, animated: true)
-//        
-//        mapView.removeAnnotations(mapView.annotations)
-//        
-//        let annotation = MKPointAnnotation()
-//        annotation.coordinate = location
-//        mapView.addAnnotation(annotation)
-//    }
-    
     func configureBackgroundColor(_ color: UIColor) {
         contentView.backgroundColor = color
     }
