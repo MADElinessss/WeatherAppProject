@@ -33,6 +33,10 @@ class ViewController: BaseViewController {
                 if let weatherList = weather {
                     self?.weatherList = weatherList
                     self?.mainTableView.reloadData()
+                    if let weatherConditionCode = weatherList.weather.first?.id {
+                        self?.updateBackgroundColor(withWeatherConditionCode: weatherConditionCode)
+                        
+                    }
                 } else {
                     print(error)
                 }
@@ -52,6 +56,13 @@ class ViewController: BaseViewController {
         }
     }
     
+    func updateBackgroundColor(withWeatherConditionCode code: Int) {
+        let backgroundColor = BackgroundColorManager.shared.backgroundColor(forWeatherConditionCode: code, atTime: Date())
+        DispatchQueue.main.async { [weak self] in
+            self?.view.backgroundColor = backgroundColor
+            self?.mainTableView.backgroundColor = backgroundColor
+        }
+    }
     
     override func configureHeirarchy() {
         view.addSubview(mainTableView)
@@ -88,8 +99,6 @@ class ViewController: BaseViewController {
         mainTableView.register(ThreeHoursWeatherTableViewCell.self, forCellReuseIdentifier: "ThreeHoursWeatherTableViewCell")
         mainTableView.register(LocationMapTableViewCell.self, forCellReuseIdentifier: "LocationMapTableViewCell")
         mainTableView.register(FiveDaysWeatherTableViewCell.self, forCellReuseIdentifier: "FiveDaysWeatherTableViewCell")
-        
-        mainTableView.backgroundColor = .black
         
         footerView.tintColor = .lightGray
         footerView.backgroundColor = .lightGray
@@ -150,6 +159,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         if indexPath.section == 0 {
             let cell = mainTableView.dequeueReusableCell(withIdentifier: "MainTableViewCell", for: indexPath) as! MainTableViewCell
             
+            let weatherConditionCode = weatherList?.weather.first?.id ?? 0
+            let backgroundColor = BackgroundColorManager.shared.backgroundColor(forWeatherConditionCode: weatherConditionCode, atTime: Date())
+            
+            cell.configureBackgroundColor(backgroundColor)
+            
             cell.location.text = weatherList?.name
             
             let temperature = (weatherList?.main.temp ?? 273.15) - 273.15
@@ -169,6 +183,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "ThreeHoursWeatherTableViewCell", for: indexPath) as! ThreeHoursWeatherTableViewCell
             
+            let weatherConditionCode = weatherList?.weather.first?.id ?? 0
+            let backgroundColor = BackgroundColorManager.shared.backgroundColor(forWeatherConditionCode: weatherConditionCode, atTime: Date())
+            
+            cell.configureBackgroundColor(backgroundColor)
+            
             if let forecastData = forecastList?.list {
                 cell.configure(with: forecastData)
                 let iconCode = forecastData.first?.weather.first?.icon ?? ""
@@ -181,6 +200,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             
         } else if indexPath.section == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "FiveDaysWeatherTableViewCell", for: indexPath) as! FiveDaysWeatherTableViewCell
+            
+            let weatherConditionCode = weatherList?.weather.first?.id ?? 0
+            let backgroundColor = BackgroundColorManager.shared.backgroundColor(forWeatherConditionCode: weatherConditionCode, atTime: Date())
+            
+            cell.configureBackgroundColor(backgroundColor)
             
             let dailyWeather = dailyWeatherList[indexPath.row]
             let dayString = dayOfWeekString(from: dailyWeather.date)
@@ -204,6 +228,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "LocationMapTableViewCell", for: indexPath) as! LocationMapTableViewCell
             
+            let weatherConditionCode = weatherList?.weather.first?.id ?? 0
+            let backgroundColor = BackgroundColorManager.shared.backgroundColor(forWeatherConditionCode: weatherConditionCode, atTime: Date())
+            
+            cell.configureBackgroundColor(backgroundColor)
+            
             // TODO: 현위치 지도, 현재 위치를 받아와야 함
             
             cell.selectionStyle = .none
@@ -213,6 +242,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             
             let cell = mainTableView.dequeueReusableCell(withIdentifier: "FiveDaysWeatherTableViewCell", for: indexPath) as! FiveDaysWeatherTableViewCell
+            
+            let weatherConditionCode = weatherList?.weather.first?.id ?? 0
+            let backgroundColor = BackgroundColorManager.shared.backgroundColor(forWeatherConditionCode: weatherConditionCode, atTime: Date())
+            
+            cell.configureBackgroundColor(backgroundColor)
             
             let dayString = dateStringForIndexPath(indexPath, isHourly: false)
             cell.date.text = dayString

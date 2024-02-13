@@ -31,4 +31,8 @@ class LocationMapTableViewCell: BaseTableViewCell {
         
         // TODO: View 더 추가
     }
+    
+    func configureBackgroundColor(_ color: UIColor) {
+        contentView.backgroundColor = color
+    }
 }

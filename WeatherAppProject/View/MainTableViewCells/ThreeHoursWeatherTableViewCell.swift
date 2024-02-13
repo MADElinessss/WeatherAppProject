@@ -10,7 +10,9 @@ import UIKit
 
 class ThreeHoursWeatherTableViewCell: BaseTableViewCell {
 
+    var weatherList: WeatherModel?
     var forecastData: [List]?
+    
     var iconCode : String = "" {
         didSet {
             collectionView.reloadData()
@@ -42,6 +44,11 @@ class ThreeHoursWeatherTableViewCell: BaseTableViewCell {
         }
         
         self.collectionView.reloadData()
+    }
+    
+    func configureBackgroundColor(_ color: UIColor) {
+        contentView.backgroundColor = color
+        collectionView.backgroundColor = color
     }
     
     override func configureHierarchy() {
@@ -82,6 +89,9 @@ extension ThreeHoursWeatherTableViewCell: UICollectionViewDelegate, UICollection
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ThreeHoursWeatherCollectionViewCell", for: indexPath) as! ThreeHoursWeatherCollectionViewCell
+        
+        let backgroundColor = BackgroundColorManager.shared.backgroundColor(forWeatherConditionCode: weatherList?.weather.first?.id ?? 0, atTime: Date())
+        cell.configureBackgroundColor(backgroundColor)
         
         if indexPath.row == 0 {
             

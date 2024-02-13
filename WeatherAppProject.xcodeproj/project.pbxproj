@@ -36,6 +36,7 @@
 		C1BC98F22B7B18910083E181 /* ExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BC98F12B7B18910083E181 /* ExampleViewController.swift */; };
 		C1BC98F42B7B224B0083E181 /* DailyWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BC98F32B7B224B0083E181 /* DailyWeather.swift */; };
 		C1BC98F62B7B2A3C0083E181 /* IconAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BC98F52B7B2A3C0083E181 /* IconAPIManager.swift */; };
+		C1BC98F82B7B32A90083E181 /* BackgroundColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BC98F72B7B32A90083E181 /* BackgroundColorManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +69,7 @@
 		C1BC98F12B7B18910083E181 /* ExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleViewController.swift; sourceTree = "<group>"; };
 		C1BC98F32B7B224B0083E181 /* DailyWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyWeather.swift; sourceTree = "<group>"; };
 		C1BC98F52B7B2A3C0083E181 /* IconAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconAPIManager.swift; sourceTree = "<group>"; };
+		C1BC98F72B7B32A90083E181 /* BackgroundColorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundColorManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +172,7 @@
 				C1BC98DA2B78DA2C0083E181 /* APIManager.swift */,
 				C1BC98DE2B78DB8C0083E181 /* WeatherAPI.swift */,
 				C1BC98F52B7B2A3C0083E181 /* IconAPIManager.swift */,
+				C1BC98F72B7B32A90083E181 /* BackgroundColorManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -270,6 +273,7 @@
 				C1BC98E42B78FA550083E181 /* LocationMapTableViewCell.swift in Sources */,
 				C1BC98B12B7857570083E181 /* SceneDelegate.swift in Sources */,
 				C1BC98F42B7B224B0083E181 /* DailyWeather.swift in Sources */,
+				C1BC98F82B7B32A90083E181 /* BackgroundColorManager.swift in Sources */,
 				C1BC98DF2B78DB8C0083E181 /* WeatherAPI.swift in Sources */,
 				C1BC98D82B78D9BF0083E181 /* APIKey.swift in Sources */,
 				C1BC98F62B7B2A3C0083E181 /* IconAPIManager.swift in Sources */,

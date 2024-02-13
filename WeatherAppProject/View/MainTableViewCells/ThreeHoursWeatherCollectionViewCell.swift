@@ -43,6 +43,10 @@ class ThreeHoursWeatherCollectionViewCell: BaseCollectionViewCell {
         self.temperature.text = String(format: "%.0f°", temperatureCelsius)
         
     }
+    
+    func configureBackgroundColor(_ color: UIColor) {
+        contentView.backgroundColor = color
+    }
 
     override func configureHierarchy() {
         contentView.backgroundColor = .black

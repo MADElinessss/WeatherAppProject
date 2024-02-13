@@ -56,7 +56,7 @@ class MainTableViewCell: BaseTableViewCell {
     }
     
     override func configureView() {
-        background.backgroundColor = .black
+        
         location.text = "Jeju City"
         location.font = .systemFont(ofSize: 44, weight: .light)
         location.textColor = .white
@@ -74,6 +74,10 @@ class MainTableViewCell: BaseTableViewCell {
         highAndLowDegree.textColor = .white
     }
     
+    func configureBackgroundColor(_ color: UIColor) {
+        contentView.backgroundColor = color
+    }
+
 }
 
 #Preview {

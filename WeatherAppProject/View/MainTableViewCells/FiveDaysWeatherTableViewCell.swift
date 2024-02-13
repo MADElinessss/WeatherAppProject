@@ -24,6 +24,10 @@ class FiveDaysWeatherTableViewCell: BaseTableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func configureBackgroundColor(_ color: UIColor) {
+        contentView.backgroundColor = color
+    }
+    
     override func configureView() {
         contentView.addSubview(date)
         contentView.addSubview(weatherIcon)
@@ -58,7 +62,7 @@ class FiveDaysWeatherTableViewCell: BaseTableViewCell {
         
         minTemperature.text = "최저 -2°"
         minTemperature.font = .systemFont(ofSize: 18, weight: .light)
-        minTemperature.textColor = .lightGray
+        minTemperature.textColor = .systemGray6
         
         maxTemperature.text = "최고 9°"
         maxTemperature.font = .systemFont(ofSize: 18, weight: .light)
