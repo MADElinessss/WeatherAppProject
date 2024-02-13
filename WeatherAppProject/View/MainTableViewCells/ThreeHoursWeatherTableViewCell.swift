@@ -9,6 +9,8 @@ import SnapKit
 import UIKit
 
 class ThreeHoursWeatherTableViewCell: BaseTableViewCell {
+
+    var forecastData: [List]?
     
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureCollectionLayout())
 
@@ -21,12 +23,17 @@ class ThreeHoursWeatherTableViewCell: BaseTableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func configure(with forecastData: [List]) {
+        self.forecastData = forecastData
+        self.collectionView.reloadData()
+    }
+    
     override func configureHierarchy() {
         contentView.addSubview(collectionView)
     }
     
     override func configureLayout() {
-        contentView.snp.makeConstraints { make in
+        collectionView.snp.makeConstraints { make in
             make.edges.equalTo(contentView.safeAreaLayoutGuide)
         }
     }
@@ -53,11 +60,15 @@ class ThreeHoursWeatherTableViewCell: BaseTableViewCell {
 
 extension ThreeHoursWeatherTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return 12
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ThreeHoursWeatherCollectionViewCell", for: indexPath) as! ThreeHoursWeatherCollectionViewCell
+        
+        if let data = forecastData?[indexPath.row] {
+            cell.configure(with: data)
+        }
         
         return cell
     }

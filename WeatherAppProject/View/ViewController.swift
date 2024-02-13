@@ -111,6 +111,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
             return UIScreen.main.bounds.height * 0.4
+        } else if indexPath.section == 1 {
+            return UIScreen.main.bounds.height * 0.2
         } else if indexPath.section == 2 {
             return 44
         } else {
@@ -154,8 +156,9 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 let temperature = forecastData?.main.temp ?? 0.0
                 let temperatureCelsius = temperature - 273.15
             
-            print(hourString, String(format: "%.0f°", temperatureCelsius))
-//            cell.configure(time: hourString, temperature: String(format: "%.0f°", temperatureCelsius))
+            if let forecastData = forecastList?.list {
+                cell.configure(with: forecastData)
+            }
             
             return cell
             

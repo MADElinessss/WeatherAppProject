@@ -22,6 +22,16 @@ class ThreeHoursWeatherCollectionViewCell: BaseCollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func configure(with data: List) {
+        
+        let dateString = data.dtTxt
+        self.time.text = extractHourString(from: dateString)
+        
+        let temperatureCelsius = data.main.temp - 273.15
+        self.temperature.text = String(format: "%.0f°", temperatureCelsius)
+    }
+
+    
     override func configureHierarchy() {
         contentView.addSubview(time)
         contentView.addSubview(image)
@@ -57,6 +67,22 @@ class ThreeHoursWeatherCollectionViewCell: BaseCollectionViewCell {
         temperature.text = "7°"
         temperature.font = .systemFont(ofSize: 14, weight: .light)
         temperature.textColor = .white
+    }
+}
+
+extension ThreeHoursWeatherCollectionViewCell {
+    func extractHourString(from dateString: String) -> String {
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        inputFormatter.locale = Locale(identifier: "ko_KR")
+        
+        guard let date = inputFormatter.date(from: dateString) else { return "" }
+        
+        let outputFormatter = DateFormatter()
+        outputFormatter.dateFormat = "H시"
+        outputFormatter.locale = Locale(identifier: "ko_KR")
+        
+        return outputFormatter.string(from: date)
     }
 }
 
