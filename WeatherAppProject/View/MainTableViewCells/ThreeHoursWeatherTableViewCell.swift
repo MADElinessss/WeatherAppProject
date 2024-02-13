@@ -82,42 +82,32 @@ extension ThreeHoursWeatherTableViewCell: UICollectionViewDelegate, UICollection
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ThreeHoursWeatherCollectionViewCell", for: indexPath) as! ThreeHoursWeatherCollectionViewCell
-        if indexPath.row == 0 {
-            // 첫 번째 셀에 "지금" 표시
-            cell.time.text = "지금"
-        } else if let data = forecastData?[indexPath.row] {
-            // 그 이후 시간 표시
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-            if let date = dateFormatter.date(from: data.dtTxt) {
-                dateFormatter.dateFormat = "H시"
-                let timeString = dateFormatter.string(from: date)
-                cell.time.text = timeString
-            }
-        }
         
-        if let data = forecastData?[indexPath.row] {
-            // 데이터를 사용하여 셀 구성
-            cell.configure(with: data)
+        if indexPath.row == 0 {
+            
+            cell.time.text = "지금"
+            
+            if let firstData = forecastData?.first {
+                cell.configure(with: firstData)
+            }
+        } else {
+            
+            if let data = forecastData, indexPath.row - 1 < data.count {
+                let actualIndex = indexPath.row - 1
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                if let date = dateFormatter.date(from: data[actualIndex].dtTxt) {
+                    dateFormatter.dateFormat = "H시"
+                    let timeString = dateFormatter.string(from: date)
+                    cell.time.text = timeString
+                    cell.configure(with: data[actualIndex])
+                }
+            }
         }
 
         return cell
     }
-}
 
-extension ThreeHoursWeatherTableViewCell {
-    
-    func loadImage(from url: URL?, for imageView: UIImageView) {
-        guard let url = url else { return }
-        
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            if let data = data, let image = UIImage(data: data) {
-                DispatchQueue.main.async {
-                    imageView.image = image
-                }
-            }
-        }.resume()
-    }
 }
 
 #Preview {

@@ -38,10 +38,6 @@ class ThreeHoursWeatherCollectionViewCell: BaseCollectionViewCell {
             }
         }
         
-        // 날짜 및 시간 설정
-        let dateString = data.dtTxt
-        self.time.text = extractHourString(from: dateString)
-        
         // 온도 설정
         let temperatureCelsius = data.main.temp - 273.15
         self.temperature.text = String(format: "%.0f°", temperatureCelsius)
@@ -95,12 +91,23 @@ extension ThreeHoursWeatherCollectionViewCell {
         
         guard let date = inputFormatter.date(from: dateString) else { return "" }
         
-        let outputFormatter = DateFormatter()
-        outputFormatter.dateFormat = "H시"
-        outputFormatter.locale = Locale(identifier: "ko_KR")
+        // 현재 시간과의 차이 계산
+        let now = Date()
+        let timeInterval = date.timeIntervalSince(now)
         
-        return outputFormatter.string(from: date)
+        // 3시간 이내인 경우 "지금" 반환
+        if timeInterval <= 3600 && timeInterval >= 0 {
+            return "지금"
+        } else {
+            // 그 외의 경우 시간 문자열 반환
+            let outputFormatter = DateFormatter()
+            outputFormatter.dateFormat = "H시"
+            outputFormatter.locale = Locale(identifier: "ko_KR")
+            
+            return outputFormatter.string(from: date)
+        }
     }
+
 }
 
 #Preview {
