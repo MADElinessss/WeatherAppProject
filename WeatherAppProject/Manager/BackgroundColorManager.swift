@@ -21,7 +21,7 @@ class BackgroundColorManager {
         case 200...232: // Thunderstorm
             return UIColor.darkGray
         case 300...321, 500...531: // Drizzle, Rain
-            return UIColor.blue
+            return UIColor.darkGray
         case 600...622: // Snow
             return UIColor.white
         case 800: // Clear
@@ -29,7 +29,7 @@ class BackgroundColorManager {
         case 801...804: // Clouds
             return isDaytime ? UIColor(named: "cloudy_day") ?? UIColor.orange : UIColor(named: "cloudy_night") ?? UIColor.orange
         default:
-            return UIColor(named: "sunny_day") ?? UIColor.orange
+            return UIColor.black
         }
     }
 }

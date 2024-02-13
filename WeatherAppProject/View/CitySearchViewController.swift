@@ -96,7 +96,6 @@ extension CitySearchViewController {
            let data = try? Data(contentsOf: url) {
             do {
                 citylist = try JSONDecoder().decode([CityList].self, from: data)
-                //                print(citylist)
                 tableView.reloadData()
             } catch {
                 print("Error decoding JSON: \(error)")

@@ -69,7 +69,6 @@ class ViewController: BaseViewController {
             latitude = currentLocation.latitude
             longitude = currentLocation.longitude
         } else {
-            print("현재 위치를 사용할 수 없습니다.")
             return
         }
         
@@ -249,11 +248,14 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "ThreeHoursWeatherTableViewCell", for: indexPath) as! ThreeHoursWeatherTableViewCell
             
-            let weatherConditionCode = weatherList?.weather.first?.id ?? 0
+            if let weatherData = self.weatherList {
+                cell.weatherList = weatherData
+                let weatherConditionCode = weatherList?.weather.first?.id ?? 0
+                let backgroundColor = BackgroundColorManager.shared.backgroundColor(forWeatherConditionCode: weatherConditionCode, atTime: Date())
+                cell.configureBackgroundColor(backgroundColor)
+            }
             
-            let backgroundColor = BackgroundColorManager.shared.backgroundColor(forWeatherConditionCode: weatherConditionCode, atTime: Date())
-            cell.configureBackgroundColor(backgroundColor)
-            
+            // 날씨 데이터를 셀에 구성
             if let forecastData = forecastList?.list {
                 cell.configure(with: forecastData)
                 let iconCode = forecastData.first?.weather.first?.icon ?? ""

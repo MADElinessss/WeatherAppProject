@@ -32,7 +32,6 @@ class ThreeHoursWeatherTableViewCell: BaseTableViewCell {
     
     func configure(with forecastData: [List]) {
         let now = Date()
-        let calendar = Calendar.current
         
         self.forecastData = forecastData.filter { data in
             let dateFormatter = DateFormatter()
@@ -47,8 +46,11 @@ class ThreeHoursWeatherTableViewCell: BaseTableViewCell {
     }
     
     func configureBackgroundColor(_ color: UIColor) {
-        contentView.backgroundColor = color
-        collectionView.backgroundColor = color
+        guard let weatherConditionCode = weatherList?.weather.first?.id else { return }
+        let backgroundColor = BackgroundColorManager.shared.backgroundColor(forWeatherConditionCode: weatherConditionCode, atTime: Date())
+        
+        self.contentView.backgroundColor = backgroundColor
+        self.collectionView.backgroundColor = backgroundColor
     }
     
     override func configureHierarchy() {

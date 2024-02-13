@@ -40,11 +40,13 @@ class ThreeHoursWeatherCollectionViewCell: BaseCollectionViewCell {
         
         // 온도 설정
         let temperatureCelsius = data.main.temp - 273.15
+            
         self.temperature.text = String(format: "%.0f°", temperatureCelsius)
         
     }
     
     func configureBackgroundColor(_ color: UIColor) {
+            
         contentView.backgroundColor = color
     }
 
