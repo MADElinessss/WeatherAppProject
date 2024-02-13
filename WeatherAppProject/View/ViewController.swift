@@ -5,6 +5,7 @@
 //  Created by Madeline on 2/11/24.
 //
 
+import CoreLocation
 import SnapKit
 import UIKit
 
@@ -19,15 +20,32 @@ class ViewController: BaseViewController {
     var forecastList: ForecastModel?
     var dailyWeatherList: [DailyWeather] = []
     
+    var locationManager: CLLocationManager!
+    var currentLocation: CLLocationCoordinate2D?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadWeatherData()
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
         
+        checkDeviceLocationAuthorization()
+        
+        loadWeatherData()
     }
     
     func loadWeatherData() {
-        let currentAPI = WeatherAPI.current(lat: "33.4890", lon: "126.4983")
+        
+        guard let currentLocation = self.currentLocation else {
+            print("Current location is not available.")
+            return
+        }
+        
+        let latitude = "\(currentLocation.latitude)"
+        let longitude = "\(currentLocation.longitude)"
+        
+        let currentAPI = WeatherAPI.current(lat: latitude, lon: longitude)
         APIManager.shared.fetchWeather(type: WeatherModel.self, api: currentAPI, url: currentAPI.endPoint) { [weak self] weather, error in
             DispatchQueue.main.async {
                 if let weatherList = weather {
@@ -42,7 +60,7 @@ class ViewController: BaseViewController {
                 }
             }
         }
-        let forecastAPI = WeatherAPI.forecast(lat: "33.4890", lon: "126.4983")
+        let forecastAPI = WeatherAPI.forecast(lat: latitude, lon: longitude)
         APIManager.shared.fetchWeather(type: ForecastModel.self, api: forecastAPI, url: forecastAPI.endPoint) { forecast, error in
             DispatchQueue.main.async {
                 if let forecastList = forecast {
@@ -184,8 +202,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ThreeHoursWeatherTableViewCell", for: indexPath) as! ThreeHoursWeatherTableViewCell
             
             let weatherConditionCode = weatherList?.weather.first?.id ?? 0
-            let backgroundColor = BackgroundColorManager.shared.backgroundColor(forWeatherConditionCode: weatherConditionCode, atTime: Date())
             
+            let backgroundColor = BackgroundColorManager.shared.backgroundColor(forWeatherConditionCode: weatherConditionCode, atTime: Date())
             cell.configureBackgroundColor(backgroundColor)
             
             if let forecastData = forecastList?.list {
@@ -234,6 +252,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             cell.configureBackgroundColor(backgroundColor)
             
             // TODO: 현위치 지도, 현재 위치를 받아와야 함
+            if let currentLocation = self.currentLocation {
+                // 올바른 인자 레이블과 함께 메소드 호출
+                cell.configureWithLocation(location: currentLocation)
+            }
             
             cell.selectionStyle = .none
             
@@ -279,6 +301,85 @@ extension ViewController {
                 }
             }
         }.resume()
+    }
+}
+
+extension ViewController: CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+        currentLocation = location.coordinate
+        
+        locationManager.stopUpdatingLocation()
+        
+        loadWeatherData()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status {
+        case .authorizedWhenInUse, .authorizedAlways:
+            manager.startUpdatingLocation()
+        case .denied, .restricted, .notDetermined:
+            break
+        @unknown default:
+            break
+        }
+    }
+    
+    func requestLocationAuthorization() {
+        locationManager.requestWhenInUseAuthorization()
+    }
+    
+    func checkDeviceLocationAuthorization() {
+        let status = CLLocationManager.authorizationStatus() // iOS 14 미만 대응
+        if #available(iOS 14.0, *) {
+            let status = locationManager.authorizationStatus // iOS 14 이상 대응
+        }
+        
+        switch status {
+        case .notDetermined:
+            // 권한이 결정되지 않음: 권한 요청
+            locationManager.requestWhenInUseAuthorization()
+        case .restricted, .denied:
+            // 권한이 제한됨 또는 거부됨: 사용자에게 설정에서 권한을 변경하도록 안내
+            DispatchQueue.main.async {
+                self.showLocationAccessDeniedAlert()
+            }
+        case .authorizedAlways, .authorizedWhenInUse:
+            // 권한이 허용됨: 위치 업데이트 시작
+            locationManager.startUpdatingLocation()
+        @unknown default:
+            break
+        }
+    }
+
+    func showLocationAccessDeniedAlert() {
+        let alert = UIAlertController(title: "위치 서비스 권한 필요", message: "이 앱은 정확한 날씨 정보를 제공하기 위해 위치 서비스 권한이 필요합니다. 설정에서 권한을 허용해주세요.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "설정으로 이동", style: .default, handler: { _ in
+            if let url = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+
+    func checkCurrentLocationAuthorization(_ status: CLAuthorizationStatus) {
+        
+        switch status {
+        case .notDetermined:
+            print("notDetermined")
+        case .restricted:
+            print("restricted")
+        case .denied:
+            print("denied")
+        case .authorizedAlways:
+            print("authorizedAlways")
+        case .authorizedWhenInUse:
+            print("authorizedWhenInUse")
+        case .authorized:
+            print("authorized")
+        }
     }
 }
 
@@ -351,8 +452,9 @@ extension ViewController {
         
         self.dailyWeatherList = tempDailyWeatherList
     }
-
+    
 }
+
 
 #Preview {
     ViewController()

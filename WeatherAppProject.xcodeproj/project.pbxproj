@@ -18,8 +18,6 @@
 		C1BC98C92B78D19A0083E181 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BC98C82B78D19A0083E181 /* BaseTableViewCell.swift */; };
 		C1BC98CB2B78D1BD0083E181 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BC98CA2B78D1BD0083E181 /* BaseViewController.swift */; };
 		C1BC98CD2B78D2140083E181 /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BC98CC2B78D2140083E181 /* BaseCollectionViewCell.swift */; };
-		C1BC98D02B78D36B0083E181 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = C1BC98CF2B78D36B0083E181 /* SnapKit */; };
-		C1BC98D22B78D36B0083E181 /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = C1BC98D12B78D36B0083E181 /* SnapKit-Dynamic */; };
 		C1BC98D42B78D9230083E181 /* ThreeHoursWeatherTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BC98D32B78D9230083E181 /* ThreeHoursWeatherTableViewCell.swift */; };
 		C1BC98D82B78D9BF0083E181 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BC98D72B78D9BF0083E181 /* APIKey.swift */; };
 		C1BC98DB2B78DA2C0083E181 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BC98DA2B78DA2C0083E181 /* APIManager.swift */; };
@@ -33,10 +31,10 @@
 		C1BC98EC2B7907E40083E181 /* Sys.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BC98EB2B7907E40083E181 /* Sys.swift */; };
 		C1BC98EE2B7907F20083E181 /* Clouds.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BC98ED2B7907F20083E181 /* Clouds.swift */; };
 		C1BC98F02B7907FF0083E181 /* Wind.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BC98EF2B7907FF0083E181 /* Wind.swift */; };
-		C1BC98F22B7B18910083E181 /* ExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BC98F12B7B18910083E181 /* ExampleViewController.swift */; };
 		C1BC98F42B7B224B0083E181 /* DailyWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BC98F32B7B224B0083E181 /* DailyWeather.swift */; };
 		C1BC98F62B7B2A3C0083E181 /* IconAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BC98F52B7B2A3C0083E181 /* IconAPIManager.swift */; };
 		C1BC98F82B7B32A90083E181 /* BackgroundColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BC98F72B7B32A90083E181 /* BackgroundColorManager.swift */; };
+		C1BC98FB2B7B49FA0083E181 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = C1BC98FA2B7B49FA0083E181 /* SnapKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,7 +64,6 @@
 		C1BC98EB2B7907E40083E181 /* Sys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sys.swift; sourceTree = "<group>"; };
 		C1BC98ED2B7907F20083E181 /* Clouds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clouds.swift; sourceTree = "<group>"; };
 		C1BC98EF2B7907FF0083E181 /* Wind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wind.swift; sourceTree = "<group>"; };
-		C1BC98F12B7B18910083E181 /* ExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleViewController.swift; sourceTree = "<group>"; };
 		C1BC98F32B7B224B0083E181 /* DailyWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyWeather.swift; sourceTree = "<group>"; };
 		C1BC98F52B7B2A3C0083E181 /* IconAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconAPIManager.swift; sourceTree = "<group>"; };
 		C1BC98F72B7B32A90083E181 /* BackgroundColorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundColorManager.swift; sourceTree = "<group>"; };
@@ -77,8 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C1BC98D02B78D36B0083E181 /* SnapKit in Frameworks */,
-				C1BC98D22B78D36B0083E181 /* SnapKit-Dynamic in Frameworks */,
+				C1BC98FB2B7B49FA0083E181 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -161,7 +157,6 @@
 				C1BC98C72B78D18E0083E181 /* Components */,
 				C1BC98C42B78D1520083E181 /* MainTableViewCells */,
 				C1BC98B22B7857570083E181 /* ViewController.swift */,
-				C1BC98F12B7B18910083E181 /* ExampleViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -194,8 +189,7 @@
 			);
 			name = WeatherAppProject;
 			packageProductDependencies = (
-				C1BC98CF2B78D36B0083E181 /* SnapKit */,
-				C1BC98D12B78D36B0083E181 /* SnapKit-Dynamic */,
+				C1BC98FA2B7B49FA0083E181 /* SnapKit */,
 			);
 			productName = WeatherAppProject;
 			productReference = C1BC98AB2B7857570083E181 /* WeatherAppProject.app */;
@@ -226,7 +220,7 @@
 			);
 			mainGroup = C1BC98A22B7857570083E181;
 			packageReferences = (
-				C1BC98CE2B78D36B0083E181 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				C1BC98F92B7B49FA0083E181 /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = C1BC98AC2B7857570083E181 /* Products */;
 			projectDirPath = "";
@@ -267,7 +261,6 @@
 				C1BC98C92B78D19A0083E181 /* BaseTableViewCell.swift in Sources */,
 				C1BC98E22B78F37D0083E181 /* ThreeHoursWeatherCollectionViewCell.swift in Sources */,
 				C1BC98EE2B7907F20083E181 /* Clouds.swift in Sources */,
-				C1BC98F22B7B18910083E181 /* ExampleViewController.swift in Sources */,
 				C1BC98F02B7907FF0083E181 /* Wind.swift in Sources */,
 				C1BC98E62B78FF490083E181 /* FiveDaysWeatherTableViewCell.swift in Sources */,
 				C1BC98E42B78FA550083E181 /* LocationMapTableViewCell.swift in Sources */,
@@ -434,6 +427,8 @@
 				DEVELOPMENT_TEAM = MTUYFM4K8P;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WeatherAppProject/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app needs location authorization to enable map";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -466,6 +461,8 @@
 				DEVELOPMENT_TEAM = MTUYFM4K8P;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WeatherAppProject/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app needs location authorization to enable map";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -512,7 +509,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		C1BC98CE2B78D36B0083E181 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+		C1BC98F92B7B49FA0083E181 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
 			requirement = {
@@ -523,15 +520,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		C1BC98CF2B78D36B0083E181 /* SnapKit */ = {
+		C1BC98FA2B7B49FA0083E181 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C1BC98CE2B78D36B0083E181 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			package = C1BC98F92B7B49FA0083E181 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
-		};
-		C1BC98D12B78D36B0083E181 /* SnapKit-Dynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C1BC98CE2B78D36B0083E181 /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = "SnapKit-Dynamic";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

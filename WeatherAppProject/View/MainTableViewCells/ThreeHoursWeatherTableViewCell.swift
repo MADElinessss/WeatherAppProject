@@ -62,11 +62,11 @@ class ThreeHoursWeatherTableViewCell: BaseTableViewCell {
     }
     
     override func configureView() {
-        contentView.backgroundColor = .black
-        collectionView.backgroundColor = .black
+        
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(ThreeHoursWeatherCollectionViewCell.self, forCellWithReuseIdentifier: "ThreeHoursWeatherCollectionViewCell")
+        collectionView.backgroundColor = .clear
     }
     
     static func configureCollectionLayout() -> UICollectionViewLayout {

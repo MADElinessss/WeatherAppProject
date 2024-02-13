@@ -5,6 +5,7 @@
 //  Created by Madeline on 2/11/24.
 //
 
+import CoreLocation
 import MapKit
 import SnapKit
 import UIKit
@@ -12,7 +13,8 @@ import UIKit
 class LocationMapTableViewCell: BaseTableViewCell {
     
     let mapView = MKMapView()
-
+    let manager = CLLocationManager()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -28,11 +30,16 @@ class LocationMapTableViewCell: BaseTableViewCell {
         mapView.snp.makeConstraints { make in
             make.edges.equalTo(contentView.safeAreaLayoutGuide)
         }
-        
-        // TODO: View 더 추가
     }
     
+    func configureWithLocation(location: CLLocationCoordinate2D) {
+        let center = location
+        let region = MKCoordinateRegion(center: center, latitudinalMeters: 500, longitudinalMeters: 500)
+        mapView.setRegion(region, animated: true)
+    }
+
     func configureBackgroundColor(_ color: UIColor) {
         contentView.backgroundColor = color
     }
+
 }

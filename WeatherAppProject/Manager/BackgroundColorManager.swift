@@ -27,7 +27,7 @@ class BackgroundColorManager {
         case 800: // Clear
             return isDaytime ? UIColor(named: "sunny_day") ?? UIColor.orange : UIColor(named: "sunny_night") ?? UIColor.orange
         case 801...804: // Clouds
-            return UIColor.gray
+            return isDaytime ? UIColor(named: "cloudy_day") ?? UIColor.orange : UIColor(named: "cloudy_night") ?? UIColor.orange
         default:
             return UIColor(named: "sunny_day") ?? UIColor.orange
         }
