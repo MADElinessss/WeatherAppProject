@@ -11,6 +11,8 @@ import UIKit
 
 class ViewController: BaseViewController {
     
+    var onCitySelected: ((String, String) -> Void)?
+    
     let mainTableView = UITableView()
     let footerView = UIView()
     let mapButton = UIButton()
@@ -35,17 +37,30 @@ class ViewController: BaseViewController {
         loadWeatherData()
     }
     
-    func loadWeatherData() {
+    func setCityId(_ cityLat: String, _ cityLon: String) {
+        onCitySelected?(cityLat, cityLon)
+        loadWeatherData()
+    }
+    
+    // MARK: 날씨 API 호출
+    func loadWeatherData(lat: String? = nil, lon: String? = nil) {
         
-        guard let currentLocation = self.currentLocation else {
-            print("Current location is not available.")
+        let latitude: String
+        let longitude: String
+        
+        if let lat = lat, let lon = lon {
+            latitude = lat
+            longitude = lon
+        } else if let currentLocation = self.currentLocation {
+            latitude = "\(currentLocation.latitude)"
+            longitude = "\(currentLocation.longitude)"
+        } else {
+            print("현재 위치를 사용할 수 없습니다.")
             return
         }
         
-        let latitude = "\(currentLocation.latitude)"
-        let longitude = "\(currentLocation.longitude)"
-        
         let currentAPI = WeatherAPI.current(lat: latitude, lon: longitude)
+        
         APIManager.shared.fetchWeather(type: WeatherModel.self, api: currentAPI, url: currentAPI.endPoint) { [weak self] weather, error in
             DispatchQueue.main.async {
                 if let weatherList = weather {
@@ -60,6 +75,7 @@ class ViewController: BaseViewController {
                 }
             }
         }
+        
         let forecastAPI = WeatherAPI.forecast(lat: latitude, lon: longitude)
         APIManager.shared.fetchWeather(type: ForecastModel.self, api: forecastAPI, url: forecastAPI.endPoint) { forecast, error in
             DispatchQueue.main.async {
@@ -85,8 +101,8 @@ class ViewController: BaseViewController {
     override func configureHeirarchy() {
         view.addSubview(mainTableView)
         view.addSubview(footerView)
-        footerView.addSubview(mapButton)
-        footerView.addSubview(listButton)
+        view.addSubview(mapButton)
+        view.addSubview(listButton)
     }
     
     override func configureLayout() {
@@ -124,11 +140,17 @@ class ViewController: BaseViewController {
         
         mapButton.setImage(UIImage(systemName: "map"), for: .normal)
         mapButton.tintColor = .white
-        
+        mapButton.addTarget(self, action: #selector(mapButtonTapped), for: .touchUpInside)
         
         listButton.setImage(UIImage(systemName: "list.bullet"), for: .normal)
         listButton.tintColor = .white
-        
+    }
+    
+    @objc func mapButtonTapped() {
+        let vc = CitySearchViewController()
+        let nav = UINavigationController(rootViewController: vc)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true)
     }
 }
 
@@ -352,7 +374,7 @@ extension ViewController: CLLocationManagerDelegate {
             break
         }
     }
-
+    
     func showLocationAccessDeniedAlert() {
         let alert = UIAlertController(title: "위치 서비스 권한 필요", message: "이 앱은 정확한 날씨 정보를 제공하기 위해 위치 서비스 권한이 필요합니다. 설정에서 권한을 허용해주세요.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "설정으로 이동", style: .default, handler: { _ in
@@ -363,7 +385,7 @@ extension ViewController: CLLocationManagerDelegate {
         alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
     }
-
+    
     func checkCurrentLocationAuthorization(_ status: CLAuthorizationStatus) {
         
         switch status {
