@@ -158,6 +158,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             
             cell.weather.text = weatherList?.weather.first?.main
             
+            cell.selectionStyle = .none
+            
             return cell
             
         } else if indexPath.section == 1 {
@@ -167,6 +169,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             if let forecastData = forecastList?.list {
                 cell.configure(with: forecastData)
             }
+            
+            cell.selectionStyle = .none
             
             return cell
             
@@ -182,6 +186,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.maxTemperature.text = "최고 \(String(format: "%.0f°", tempMaxCelsius))"
                 cell.minTemperature.text = "최저 \(String(format: "%.0f°", tempMinCelsius))"
             }
+            cell.selectionStyle = .none
             
             return cell
 
@@ -190,6 +195,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "LocationMapTableViewCell", for: indexPath) as! LocationMapTableViewCell
             
             // TODO: 현위치 지도, 현재 위치를 받아와야 함
+            
+            cell.selectionStyle = .none
             
             return cell
             
@@ -208,6 +215,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             }
             
             // TODO: icon
+            
+            cell.selectionStyle = .none
             
             return cell
         }
