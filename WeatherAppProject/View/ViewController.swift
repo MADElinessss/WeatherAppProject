@@ -17,6 +17,7 @@ class ViewController: BaseViewController {
     
     var weatherList: WeatherModel?
     var forecastList: ForecastModel?
+    var dailyWeatherList: [DailyWeather] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +43,7 @@ class ViewController: BaseViewController {
             DispatchQueue.main.async {
                 if let forecastList = forecast {
                     self.forecastList = forecastList
+                    self.updateDailyWeatherList()
                     self.mainTableView.reloadData()
                 } else {
                     print(error)
@@ -126,7 +128,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             return UIScreen.main.bounds.height * 0.35
         } else if indexPath.section == 1 {
             // 3시간 간격의 날씨
-            return UIScreen.main.bounds.height * 0.18
+            return UIScreen.main.bounds.height * 0.2
         } else if indexPath.section == 2 {
             // 5일 동안의 날씨
             return 44
@@ -135,9 +137,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             return UIScreen.main.bounds.height * 0.4
         }
     }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 2 {
-            return 5
+            return dailyWeatherList.count
         } else {
             return 1
         }
@@ -177,19 +180,18 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         } else if indexPath.section == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "FiveDaysWeatherTableViewCell", for: indexPath) as! FiveDaysWeatherTableViewCell
             
-            let dayString = dateStringForIndexPath(indexPath, isHourly: false)
+            let dailyWeather = dailyWeatherList[indexPath.row]
+            let dayString = dayOfWeekString(from: dailyWeather.date)
             cell.date.text = dayString
             
-            if let tempMax = forecastList?.list[indexPath.row * 8].main.tempMax, let tempMin = forecastList?.list[indexPath.row * 8].main.tempMin {
-                let tempMaxCelsius = tempMax - 273.15
-                let tempMinCelsius = tempMin - 273.15
-                cell.maxTemperature.text = "최고 \(String(format: "%.0f°", tempMaxCelsius))"
-                cell.minTemperature.text = "최저 \(String(format: "%.0f°", tempMinCelsius))"
-            }
+            let tempMaxCelsius = dailyWeather.maxTemp - 273.15
+            let tempMinCelsius = dailyWeather.minTemp - 273.15
+            cell.maxTemperature.text = "최고 \(String(format: "%.0f°", tempMaxCelsius))"
+            cell.minTemperature.text = "최저 \(String(format: "%.0f°", tempMinCelsius))"
+            
             cell.selectionStyle = .none
             
             return cell
-
         } else if indexPath.section == 3 {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "LocationMapTableViewCell", for: indexPath) as! LocationMapTableViewCell
@@ -266,6 +268,33 @@ extension ViewController {
             return dayOfWeekString(from: date)
         }
     }
+    
+    func updateDailyWeatherList() {
+        guard let forecastList = forecastList else { return }
+        
+        var tempDailyWeatherList: [DailyWeather] = []
+        let calendar = Calendar.current
+        
+        for forecast in forecastList.list {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            guard let date = dateFormatter.date(from: forecast.dtTxt) else { continue }
+            let startOfDay = calendar.startOfDay(for: date)
+            
+            if let existingIndex = tempDailyWeatherList.firstIndex(where: { calendar.isDate($0.date, inSameDayAs: startOfDay) }) {
+                // Update existing daily weather with new max/min temps if needed
+                tempDailyWeatherList[existingIndex].maxTemp = max(tempDailyWeatherList[existingIndex].maxTemp, forecast.main.tempMax)
+                tempDailyWeatherList[existingIndex].minTemp = min(tempDailyWeatherList[existingIndex].minTemp, forecast.main.tempMin)
+            } else {
+                // Add new daily weather
+                let newDailyWeather = DailyWeather(date: startOfDay, maxTemp: forecast.main.tempMax, minTemp: forecast.main.tempMin)
+                tempDailyWeatherList.append(newDailyWeather)
+            }
+        }
+        
+        self.dailyWeatherList = tempDailyWeatherList
+    }
+
 }
 
 #Preview {

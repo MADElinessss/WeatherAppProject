@@ -24,7 +24,18 @@ class ThreeHoursWeatherTableViewCell: BaseTableViewCell {
     }
     
     func configure(with forecastData: [List]) {
-        self.forecastData = forecastData
+        let now = Date()
+        let calendar = Calendar.current
+        
+        self.forecastData = forecastData.filter { data in
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            if let date = dateFormatter.date(from: data.dtTxt) {
+                return date > now
+            }
+            return false
+        }
+        
         self.collectionView.reloadData()
     }
     
@@ -40,6 +51,7 @@ class ThreeHoursWeatherTableViewCell: BaseTableViewCell {
     
     override func configureView() {
         contentView.backgroundColor = .black
+        collectionView.backgroundColor = .black
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(ThreeHoursWeatherCollectionViewCell.self, forCellWithReuseIdentifier: "ThreeHoursWeatherCollectionViewCell")
@@ -65,10 +77,20 @@ extension ThreeHoursWeatherTableViewCell: UICollectionViewDelegate, UICollection
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ThreeHoursWeatherCollectionViewCell", for: indexPath) as! ThreeHoursWeatherCollectionViewCell
-        
-        if let data = forecastData?[indexPath.row] {
-            cell.configure(with: data)
+        if indexPath.row == 0 {
+            // 첫 번째 셀에 "지금" 표시
+            cell.time.text = "지금"
+        } else if let data = forecastData?[indexPath.row] {
+            // 그 이후 시간 표시
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            if let date = dateFormatter.date(from: data.dtTxt) {
+                dateFormatter.dateFormat = "H시"
+                let timeString = dateFormatter.string(from: date)
+                cell.time.text = timeString
+            }
         }
+        
         
         return cell
     }
