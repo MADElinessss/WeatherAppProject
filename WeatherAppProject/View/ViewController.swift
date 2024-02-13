@@ -8,10 +8,6 @@
 import SnapKit
 import UIKit
 
-/*
- Tableview
- footerview
- */
 class ViewController: BaseViewController {
     
     let mainTableView = UITableView()
@@ -65,9 +61,10 @@ class ViewController: BaseViewController {
     override func configureLayout() {
         mainTableView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalTo(footerView.snp.top)
         }
         footerView.snp.makeConstraints { make in
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            make.bottom.equalTo(view.snp.bottom).inset(24)
             make.height.equalTo(44)
         }
         mapButton.snp.makeConstraints { make in
@@ -93,12 +90,16 @@ class ViewController: BaseViewController {
         mainTableView.backgroundColor = .black
         
         footerView.tintColor = .lightGray
+        footerView.backgroundColor = .lightGray
+        footerView.layer.backgroundColor = UIColor.lightGray.cgColor
         
         mapButton.setImage(UIImage(systemName: "map"), for: .normal)
         mapButton.tintColor = .white
         
+        
         listButton.setImage(UIImage(systemName: "list.bullet"), for: .normal)
         listButton.tintColor = .white
+        
     }
 }
 
@@ -142,6 +143,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
             
         } else if indexPath.section == 1 {
+            
             let cell = tableView.dequeueReusableCell(withIdentifier: "ThreeHoursWeatherTableViewCell", for: indexPath) as! ThreeHoursWeatherTableViewCell
             
             // TODO: 3시간 간격의 "00시", "온도" 형태 데이터 받아서 셀에 전달
@@ -245,4 +247,8 @@ extension ViewController {
             return dayOfWeekString(from: date)
         }
     }
+}
+
+#Preview {
+    ViewController()
 }

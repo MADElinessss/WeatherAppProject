@@ -66,11 +66,11 @@ class MainTableViewCell: BaseTableViewCell {
         temperature.textColor = .white
         
         weather.text = "Broken Clouds"
-        weather.font = .systemFont(ofSize: 24, weight: .medium)
+        weather.font = .systemFont(ofSize: 28, weight: .medium)
         weather.textColor = .white
         
         highAndLowDegree.text = "최고 : 7.0°  |  최저 : -4.2°"
-        highAndLowDegree.font = .systemFont(ofSize: 20, weight: .medium)
+        highAndLowDegree.font = .systemFont(ofSize: 24, weight: .medium)
         highAndLowDegree.textColor = .white
     }
     

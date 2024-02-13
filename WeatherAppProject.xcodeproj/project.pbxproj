@@ -33,6 +33,7 @@
 		C1BC98EC2B7907E40083E181 /* Sys.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BC98EB2B7907E40083E181 /* Sys.swift */; };
 		C1BC98EE2B7907F20083E181 /* Clouds.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BC98ED2B7907F20083E181 /* Clouds.swift */; };
 		C1BC98F02B7907FF0083E181 /* Wind.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BC98EF2B7907FF0083E181 /* Wind.swift */; };
+		C1BC98F22B7B18910083E181 /* ExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BC98F12B7B18910083E181 /* ExampleViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +63,7 @@
 		C1BC98EB2B7907E40083E181 /* Sys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sys.swift; sourceTree = "<group>"; };
 		C1BC98ED2B7907F20083E181 /* Clouds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clouds.swift; sourceTree = "<group>"; };
 		C1BC98EF2B7907FF0083E181 /* Wind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wind.swift; sourceTree = "<group>"; };
+		C1BC98F12B7B18910083E181 /* ExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,6 +154,7 @@
 				C1BC98C72B78D18E0083E181 /* Components */,
 				C1BC98C42B78D1520083E181 /* MainTableViewCells */,
 				C1BC98B22B7857570083E181 /* ViewController.swift */,
+				C1BC98F12B7B18910083E181 /* ExampleViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -255,6 +258,7 @@
 				C1BC98C92B78D19A0083E181 /* BaseTableViewCell.swift in Sources */,
 				C1BC98E22B78F37D0083E181 /* ThreeHoursWeatherCollectionViewCell.swift in Sources */,
 				C1BC98EE2B7907F20083E181 /* Clouds.swift in Sources */,
+				C1BC98F22B7B18910083E181 /* ExampleViewController.swift in Sources */,
 				C1BC98F02B7907FF0083E181 /* Wind.swift in Sources */,
 				C1BC98E62B78FF490083E181 /* FiveDaysWeatherTableViewCell.swift in Sources */,
 				C1BC98E42B78FA550083E181 /* LocationMapTableViewCell.swift in Sources */,
