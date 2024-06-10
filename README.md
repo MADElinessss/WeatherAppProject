@@ -1,4 +1,4 @@
-## ✅ SeSAC Holiday Assignment
+## ✅ Weather Check Mini Project
 
 <table>
 <tr>
